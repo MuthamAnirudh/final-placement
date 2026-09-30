@@ -1,0 +1,183 @@
+/* Campus Portal — interactive login layer (additive only).
+   Works with the existing .cp-auth-* markup; it never removes or replaces a login feature.
+   Every effect is progressive: if login-interactive.js does not run, the original page is unchanged.
+   Effects are disabled for prefers-reduced-motion users (see bottom of file). */
+
+/* ---------- Live background (canvas is drawn by login-interactive.js) ---------- */
+#cp-li-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+html.cp-login-live body{background:#071426}
+html.cp-login-live #root{position:relative;z-index:1}
+html.cp-login-live .cp-auth-page{background:transparent!important}
+html.cp-login-live .cp-auth-decor .absolute:not(:first-child){
+  transition:transform .35s ease-out;
+  transform:translate3d(calc(var(--cp-px,0)*-26px),calc(var(--cp-py,0)*-26px),0)}
+
+/* ---------- Entrance choreography ---------- */
+@keyframes cpLiRise{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes cpLiSlide{from{opacity:0;transform:translateX(-22px)}to{opacity:1;transform:none}}
+html.cp-login-live .cp-auth-brand{animation:cpLiRise .7s cubic-bezier(.2,.8,.2,1) backwards}
+html.cp-login-live .cp-auth-card{animation:cpLiRise .8s .12s cubic-bezier(.2,.8,.2,1) backwards}
+html.cp-login-live .cp-auth-features>div:first-child{animation:cpLiSlide .7s cubic-bezier(.2,.8,.2,1) backwards}
+html.cp-login-live .cp-auth-feature{animation:cpLiSlide .65s cubic-bezier(.2,.8,.2,1) backwards}
+html.cp-login-live .cp-auth-feature:nth-child(1){animation-delay:.15s}
+html.cp-login-live .cp-auth-feature:nth-child(2){animation-delay:.27s}
+html.cp-login-live .cp-auth-feature:nth-child(3){animation-delay:.39s}
+html.cp-login-live .cp-auth-feature:nth-child(4){animation-delay:.51s}
+
+/* ---------- Card: pointer spotlight + gentle 3D tilt ---------- */
+html.cp-login-live .cp-auth-card{
+  transform:perspective(1200px) rotateX(var(--cp-rx,0deg)) rotateY(var(--cp-ry,0deg));
+  transition:transform .22s ease-out,box-shadow .3s ease;
+  will-change:transform}
+html.cp-login-live .cp-auth-card:focus-within{--cp-rx:0deg;--cp-ry:0deg;box-shadow:0 34px 90px rgba(0,0,0,.36),0 0 0 1px rgba(125,211,252,.35)!important}
+.cp-auth-card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(340px circle at var(--cp-mx,50%) var(--cp-my,0%),rgba(56,189,248,.17),transparent 62%);
+  opacity:var(--cp-spot,0);transition:opacity .35s ease}
+
+/* Card progress line (top gradient bar fills as the form is completed) */
+html.cp-login-live .cp-auth-card>div:first-child{
+  clip-path:inset(0 calc((1 - var(--cp-fill,.22))*100%) 0 0);
+  transition:clip-path .45s cubic-bezier(.2,.8,.2,1)}
+
+/* ---------- Feature cards: auto-highlight + hover glow ---------- */
+.cp-auth-feature{position:relative;overflow:hidden}
+.cp-auth-feature::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .35s ease;
+  background:linear-gradient(100deg,transparent 20%,rgba(125,211,252,.16) 50%,transparent 80%)}
+.cp-auth-feature[data-cp-active="1"]{background:rgba(255,255,255,.13)!important;border-color:rgba(125,211,252,.45)!important;transform:translateX(6px)}
+.cp-auth-feature[data-cp-active="1"]::before{opacity:1}
+
+/* ---------- Buttons: shine, press and ripple ---------- */
+.cp-auth-card button.w-full,.cp-auth-card button[type=submit]{position:relative;overflow:hidden}
+.cp-auth-card button.w-full::before,.cp-auth-card button[type=submit]::before{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-20deg);transition:left .6s ease}
+.cp-auth-card button.w-full:hover:not(:disabled)::before,.cp-auth-card button[type=submit]:hover:not(:disabled)::before{left:130%}
+.cp-auth-card button:active:not(:disabled){transform:scale(.985)}
+.cp-auth-role{transition:transform .2s ease,box-shadow .2s ease,background .2s ease,border-color .2s ease!important}
+.cp-auth-role:hover{transform:translateY(-2px)}
+.cp-li-ripple{position:absolute;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.45);transform:scale(0);animation:cpLiRipple .6s ease-out forwards}
+@keyframes cpLiRipple{to{transform:scale(1);opacity:0}}
+
+/* Role shortcuts remain available but their old visible Alt+1..4 badges are removed. */
+.cp-auth-role-grid button{position:relative;overflow:hidden}
+.cp-auth-role-grid button::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(120deg,transparent 25%,rgba(255,255,255,.24) 50%,transparent 75%);
+  transform:translateX(-120%);transition:transform .55s ease}
+.cp-auth-role-grid button:hover::after,.cp-auth-role-grid button:focus-visible::after{transform:translateX(120%)}
+.cp-auth-role-grid button:focus-visible{outline:3px solid rgba(59,130,246,.22);outline-offset:2px}
+.cp-li-key{display:none!important}
+
+/* ---------- Inputs: validity ring + strength bar ---------- */
+html body .cp-auth-card input[data-cp-valid="1"]:not([type=checkbox]):not([type=file]){border-color:#34d399!important;box-shadow:0 0 0 3px rgba(52,211,153,.14)!important}
+html body .cp-auth-card input[data-cp-valid="0"]:not([type=checkbox]):not([type=file]){border-color:#fb7185!important;box-shadow:0 0 0 3px rgba(251,113,133,.14)!important}
+html body .cp-auth-card input[data-cp-strength][data-cp-strength]:not([type=checkbox]):not([type=file]){
+  background-repeat:no-repeat!important;background-position:0 100%!important;background-size:calc(var(--cp-str,0)*25%) 3px!important;
+  background-image:linear-gradient(90deg,var(--cp-str-c,#f43f5e),var(--cp-str-c,#f43f5e))!important;transition:background-size .3s ease}
+
+/* ---------- Floating helpers (caps lock, strength label, ghost autocomplete, status pill) ---------- */
+.cp-li-tip{position:fixed;z-index:60;display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:9px;font:800 10.5px/1.2 system-ui,sans-serif;
+  color:#7c2d12;background:#ffedd5;border:1px solid #fdba74;box-shadow:0 8px 20px rgba(0,0,0,.14);pointer-events:none;
+  opacity:0;transform:translateY(4px);transition:opacity .18s ease,transform .18s ease}
+.cp-li-tip[data-show="1"]{opacity:1;transform:none}
+.cp-li-strength{position:fixed;z-index:60;font:900 10px/1 system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;pointer-events:none;
+  opacity:0;transition:opacity .2s ease}
+.cp-li-strength[data-show="1"]{opacity:1}
+.cp-li-ghost{position:fixed;z-index:60;font-weight:700;color:#94a3b8;cursor:pointer;white-space:pre;pointer-events:auto;
+  display:flex;align-items:center;gap:6px;user-select:none}
+.cp-li-ghost kbd{font:800 8.5px/1 system-ui,sans-serif;padding:2px 4px;border-radius:4px;background:#e2e8f0;color:#475569;border:1px solid #cbd5e1}
+.cp-li-status{position:fixed;left:16px;bottom:14px;z-index:30;display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;
+  font:800 11px/1 system-ui,sans-serif;color:#dbeafe;background:rgba(2,8,23,.55);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(12px);
+  pointer-events:none;animation:cpLiRise .8s .5s backwards}
+.cp-li-dot{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 0 0 rgba(52,211,153,.6);animation:cpLiPulse 2s infinite}
+.cp-li-status[data-online="0"] .cp-li-dot{background:#fbbf24;animation:none}
+@keyframes cpLiPulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.55)}70%{box-shadow:0 0 0 9px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+
+@media(max-width:720px){.cp-li-status{display:none}html.cp-login-live .cp-auth-card{transform:none}}
+@media(hover:none){html.cp-login-live .cp-auth-card{transform:none}}
+
+/* ---------- Reduced motion: keep the page calm ---------- */
+@media(prefers-reduced-motion:reduce){
+  #cp-li-canvas{display:none}
+  html.cp-login-live .cp-auth-brand,html.cp-login-live .cp-auth-card,html.cp-login-live .cp-auth-feature,
+  html.cp-login-live .cp-auth-features>div:first-child,.cp-li-status,.cp-li-dot{animation:none!important}
+  html.cp-login-live .cp-auth-card{transform:none!important}
+  .cp-li-ripple{display:none}
+}
+
+/* ---------- Fix: labels that use flex (icon + text) were forced to display:block by cp-auth-premium.css,
+   which pushed the icon onto its own line (e.g. "Personal Gmail (for password recovery)"). ---------- */
+.cp-auth-card label.flex{display:flex!important;align-items:center!important;gap:6px!important}
+
+
+/* =====================================================================================
+   v2 additions - every rule below is additive
+   ===================================================================================== */
+
+/* Inputs: gentle lift + icon pop on focus */
+.cp-auth-card input:not([type=checkbox]):not([type=file]){transition:transform .18s ease,box-shadow .2s ease,border-color .2s ease,background-color .2s ease}
+.cp-auth-card input:not([type=checkbox]):not([type=file]):focus{transform:translateY(-1px)}
+.cp-auth-card .relative>svg:first-child{transition:scale .2s ease,color .2s ease}
+.cp-auth-card .relative:focus-within>svg:first-child{scale:1.18;color:#2563eb}
+
+/* Ticker pauses while the pointer is over it */
+.cp-auth-ticker:hover .animate-marquee{animation-play-state:paused}
+
+/* Magnetic primary button (uses the independent `translate` property so no other transform is disturbed) */
+.cp-auth-card button[type="submit"]{translate:var(--cp-bx,0px) var(--cp-by,0px);transition:translate .16s ease-out,transform .2s ease,box-shadow .25s ease,filter .2s ease,opacity .2s ease}
+
+/* Signing-in bar: the top gradient line becomes a moving shimmer while a request is running */
+@keyframes cpLiBar{from{background-position:0 0}to{background-position:-200% 0}}
+html.cp-signing .cp-auth-card>div:first-child{clip-path:none!important;height:5px!important;
+  background:linear-gradient(90deg,#38bdf8,#2563eb,#7c3aed,#38bdf8,#2563eb)!important;background-size:200% 100%!important;
+  animation:cpLiBar 1s linear infinite}
+html.cp-signing .cp-auth-card{box-shadow:0 34px 90px rgba(0,0,0,.34),0 0 0 1px rgba(56,189,248,.30)!important}
+
+/* Live password checklist (floating, follows the focused "create password" field) */
+.cp-li-reqs{position:fixed;z-index:60;padding:10px 12px;border-radius:14px;background:rgba(15,23,42,.94);color:#e2e8f0;
+  box-shadow:0 16px 40px rgba(0,0,0,.34);border:1px solid rgba(148,163,184,.25);pointer-events:none;
+  font:700 11px/1.35 system-ui,sans-serif;opacity:0;transform:translateY(-4px) scale(.98);transition:opacity .18s ease,transform .18s ease}
+.cp-li-reqs[data-show="1"]{opacity:1;transform:none}
+.cp-li-reqs b{display:block;margin-bottom:6px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#7dd3fc}
+.cp-li-reqs ul{margin:0;padding:0;list-style:none;display:grid;gap:4px}
+.cp-li-reqs li{display:flex;align-items:center;gap:8px;color:#94a3b8;transition:color .2s ease}
+.cp-li-reqs li::before{content:"";flex:0 0 14px;width:14px;height:14px;border-radius:50%;border:2px solid #475569;box-sizing:border-box;
+  transition:background .2s ease,border-color .2s ease,transform .2s ease}
+.cp-li-reqs li[data-ok="1"]{color:#a7f3d0}
+.cp-li-reqs li[data-ok="1"]::before{background:#10b981 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/9px no-repeat;border-color:#10b981;transform:scale(1.08)}
+
+/* "Did you mean ...?" e-mail suggestion chip */
+.cp-li-fix{position:fixed;z-index:61;display:flex;align-items:center;gap:5px;max-width:min(92vw,360px);padding:6px 10px;border-radius:10px;cursor:pointer;
+  background:#eff6ff;color:#1e3a8a;border:1px solid #93c5fd;box-shadow:0 10px 24px rgba(0,0,0,.16);font:700 11px/1.2 system-ui,sans-serif;
+  opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .18s ease,transform .18s ease;user-select:none}
+.cp-li-fix[data-show="1"]{opacity:1;pointer-events:auto;transform:none}
+.cp-li-fix b{color:#1d4ed8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cp-li-fix:hover{background:#dbeafe}
+
+/* Welcome overlay after a successful sign-in (never blocks clicks) */
+@keyframes cpLiWelcome{from{opacity:0}to{opacity:1}}
+@keyframes cpLiPop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}
+@keyframes cpLiDraw{to{stroke-dashoffset:0}}
+.cp-li-welcome{position:fixed;inset:0;z-index:2147483000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  background:radial-gradient(circle at 50% 42%,rgba(14,165,233,.30),rgba(3,10,26,.94) 65%);color:#e0f2fe;text-align:center;pointer-events:none;
+  font-family:system-ui,sans-serif;animation:cpLiWelcome .3s ease both;transition:opacity .4s ease}
+.cp-li-welcome[data-out="1"]{opacity:0}
+.cp-li-welcome strong{font-size:clamp(20px,3.4vw,28px);font-weight:900;letter-spacing:-.02em;color:#fff}
+.cp-li-welcome span{font-size:13px;font-weight:700;color:#93c5fd}
+.cp-li-ring{width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:6px;
+  background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 0 0 10px rgba(16,185,129,.18),0 18px 44px rgba(16,185,129,.4);animation:cpLiPop .55s cubic-bezier(.2,.9,.3,1.2) both}
+.cp-li-ring svg{width:38px;height:38px;fill:none;stroke:#fff;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.cp-li-ring path{stroke-dasharray:26;stroke-dashoffset:26;animation:cpLiDraw .45s .3s ease forwards}
+
+@media(max-width:720px){.cp-li-reqs{font-size:10.5px}}
+@media(prefers-reduced-motion:reduce){
+  .cp-auth-card button[type="submit"]{translate:none!important}
+  html.cp-signing .cp-auth-card>div:first-child{animation:none!important}
+  .cp-li-welcome,.cp-li-ring,.cp-li-ring path{animation:none!important}
+  .cp-li-ring path{stroke-dashoffset:0}
+  .cp-auth-card input:not([type=checkbox]):not([type=file]):focus{transform:none}
+}
+
+/* v14 role-card interaction polish: the selected role gets a subtle inner glow/check treatment. */
+.cp-auth-role-grid button[aria-pressed="true"]{filter:saturate(1.08);box-shadow:0 12px 24px rgba(37,99,235,.16)}
+.cp-auth-role-grid button[aria-pressed="true"]::before{content:"✓";position:absolute;top:6px;right:7px;width:17px;height:17px;
+  display:flex;align-items:center;justify-content:center;border-radius:999px;background:rgba(255,255,255,.92);color:#1d4ed8;
+  font:900 10px/1 system-ui,sans-serif;z-index:3;box-shadow:0 3px 8px rgba(15,23,42,.16)}

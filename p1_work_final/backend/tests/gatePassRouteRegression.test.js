@@ -1,0 +1,15 @@
+'use strict';
+const assert=require('assert');
+const fs=require('fs');
+const path=require('path');
+const src=fs.readFileSync(path.join(__dirname,'../src/routes/gatePasses.js'),'utf8');
+const usage=src.indexOf("router.get('/public/usage'");
+const byId=src.indexOf("router.get('/:id'");
+assert(usage !== -1, 'Gate-pass public usage route must exist.');
+assert(byId !== -1, 'Gate-pass authenticated single-pass route must exist.');
+assert(usage < byId, 'Public QR usage route must be declared before /:id so Express does not treat public as a pass id.');
+assert(src.includes("/public/redeem"), 'Public QR redemption route must remain available.');
+assert(src.includes("/:id/faculty-decision"), 'Faculty decision workflow must remain available.');
+assert(src.includes("/:id/guardian-phone-confirm"), 'Guardian phone confirmation workflow must remain available.');
+assert(src.includes("/:id/hod-decision"), 'HOD decision workflow must remain available.');
+console.log('Gate-pass route regression checks passed.');

@@ -1,0 +1,15 @@
+{
+  "generatedAt": "2026-09-30T06:40:00.000Z",
+  "note": "Self-hosted browser runtime. Files were taken from the npm registry packages below so no CDN is needed at run time.",
+  "assets": {
+    "react.production.min.js": "react@18.3.1 (umd)",
+    "react-dom.production.min.js": "react-dom@18.3.1 (umd)",
+    "pptxgen.bundle.js": "pptxgenjs@3.12.0",
+    "email.min.js": "@emailjs/browser@4.4.1",
+    "html2canvas.min.js": "html2canvas@1.4.1",
+    "jspdf.umd.min.js": "jspdf@2.5.1",
+    "qrcode.min.js": "qrcode@1.5.3 (bundled for browsers, global QRCode)",
+    "face-api.js": "@vladmandic/face-api@1.7.15",
+    "tailwindcss-browser.js": "shim - styles come precompiled from ../tailwind-static.css"
+  }
+}

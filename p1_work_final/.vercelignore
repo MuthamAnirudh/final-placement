@@ -1,0 +1,6 @@
+ai-ml-service
+backend/tests
+backend/node_modules
+.git
+extracted.js
+mainapp.js

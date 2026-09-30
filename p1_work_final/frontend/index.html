@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AI Powered Campus A-Z Placement and Training Portal — a complete guide to UG students: check eligibility, browse recruiters and government job openings, practice previous year questions, match your resume to job descriptions, and take AI-powered mock interviews." />
+  <meta name="theme-color" content="#0270c7" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'wasm-unsafe-eval' https://unpkg.com https://cdn.jsdelivr.net https://fastly.jsdelivr.net https://gcore.jsdelivr.net https://cdnjs.cloudflare.com 'sha256-m9jsW3dPiFt+5uDX+P3dF2xp4lRIFXxBdQTqkcpxlRs=' 'sha256-n814UN2X4SSZWHidij7JoyE1Bv31qdyLFQjjkky9fmU=' 'sha256-HGSZjtvaHagESwN4gUPMA3gXha5aKSwWnm4bLAjM9n8=' 'sha256-sr4tXcnMx+BGYFSO3FjaKD2281w9o7e6TPikpNSiCF0='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://gnews.io https://api.emailjs.com https://emkc.org https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://api.qrserver.com https://quickchart.io https://fonts.googleapis.com https://fonts.gstatic.com; media-src 'self' blob: data: https:; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <title>AI Powered Campus A-Z Placement and Training Portal (A Complete Guide to UG Students)</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230c8ee9'%3E%3Cpath d='M12 2 L4 5 V11 C4 16.5 7.5 20.5 12 22 C16.5 20.5 20 16.5 20 11 V5 Z'/%3E%3C/svg%3E" />
+
+  <!-- Resource hints — fixes the noticeable lag right after scanning a Gate Pass QR code.
+       Scanning opens this page fresh (no warm cache), and it was previously paying the full
+       DNS + TLS handshake cost for every CDN (unpkg, jsDelivr, cdnjs, the QR image fallback
+       hosts) one at a time, in series, as each <script>/<img> tag was reached. Preconnecting
+       (DNS + TLS ahead of time) and dns-prefetching the QR fallback image hosts lets the
+       browser do all of that connection setup in parallel, in the background, starting the
+       instant the page is requested — well before the scripts/images that need it are parsed. -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="dns-prefetch" href="https://unpkg.com" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+  <link rel="dns-prefetch" href="https://api.qrserver.com" />
+  <link rel="dns-prefetch" href="https://quickchart.io" />
+  
+
+
+  <link rel="stylesheet" href="./tailwind-static.css" data-cps-static-tailwind />
+  <!-- Tailwind compatibility shim. Production styling is already compiled into tailwind-static.css;
+       this local file only provides window.tailwind for the existing configuration code. -->
+  <script src="./vendor/tailwindcss-browser.js" data-runtime-key="tailwind"></script>
+  <script>
+    // Waits for `window.tailwind` before touching it, instead of assuming the script tag
+    // above has already finished loading by the time this runs. Fixes:
+    // "Uncaught ReferenceError: tailwind is not defined" — which happened whenever the
+    // Tailwind CDN was slow, blocked, or (rarely) still mid-download on a slow connection
+    // when this config script executed right after it.
+    (function applyTailwindConfig() {
+      if (typeof window.tailwind === 'undefined') {
+        setTimeout(applyTailwindConfig, 30);
+        return;
+      }
+      tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              200: '#bae0fd',
+              300: '#7cc8fc',
+              400: '#36adfa',
+              500: '#0c8ee9',
+              600: '#0270c7',
+              700: '#0359a1',
+              800: '#074c83',
+              900: '#0c406e',
+              950: '#082849',
+            }
+          },
+          animation: {
+            'marquee': 'marquee 25s linear infinite',
+            'float': 'float 6s ease-in-out infinite',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            }
+          }
+        }
+      }
+      };
+    })();
+  </script>
+  
+  <!-- React & ReactDOM runtime — REQUIRED same-origin production assets.
+       These files are committed under frontend/vendor and are loaded synchronously before the
+       precompiled application. There is intentionally NO unpkg/cdnjs fallback for React or
+       ReactDOM: if either file is absent from the deployment artifact, the deployment is broken
+       and must fail/diagnose locally instead of depending on a third-party CDN. -->
+  <script crossorigin src="./vendor/react.production.min.js" data-runtime-key="react"></script>
+  <script src="./vendor/react-runtime-ensure.js"></script>
+  <script crossorigin src="./vendor/react-dom.production.min.js" data-runtime-key="react-dom"></script>
+  <script src="./vendor/react-dom-runtime-ensure.js"></script>
+  <!-- Babel Standalone is no longer loaded: the app script below is precompiled plain JS, so the
+       in-browser JSX transpile step (and this CDN dependency) has been removed entirely. -->
+
+  <!-- Optional cross-device Gate Pass URL. This file is intentionally tiny and contains no secrets. -->
+  <script src="./gate-pass-public-config.js"></script>
+
+  <!-- pptxgenjs — powers the Text-to-PPT Converter (client-side .pptx generation, no server).
+       NOTE: cdnjs does not actually host this package, so that URL 404s and PptxGenJS never
+       loads (this was the cause of "PPT engine failed to load"). jsDelivr (backed by the
+       project's own npm publish + GitHub releases) is the officially recommended CDN — used
+       here with an automatic fallback mirror in case one host is unreachable. -->
+  <script defer src="./vendor/pptxgen.bundle.js" data-runtime-key="pptx"></script>
+
+  <!-- EmailJS — powers the "Forgot Password" account-recovery flow by emailing a one-time
+       verification code to the user's Gmail. Optional: if an admin hasn't configured an EmailJS
+       Service ID / Template ID / Public Key (Admin → AI & Integrations), the app falls back to
+       showing the code on-screen in a clearly-labeled "demo mode" so recovery still works
+       end-to-end while testing, without silently failing. -->
+  <script defer src="./vendor/email.min.js" data-runtime-key="emailjs"></script>
+
+  <!-- jsPDF + html2canvas — power the "Export to PDF" option on the PPT generator (renders each
+       slide's on-screen preview to a page image, alongside the native .pptx export). -->
+  <script defer src="./vendor/html2canvas.min.js" data-runtime-key="html2canvas"></script>
+  <script defer src="./vendor/jspdf.umd.min.js" data-runtime-key="jspdf"></script>
+  <!-- QRCode.js — generates the one-time Gate Pass QR codes (client-side, no network call).
+       If the primary CDN (jsDelivr) is blocked on this network, fall back to the unpkg mirror
+       — same pattern used for the Face ID model loader below, since a blocked/ad-blocked CDN
+       was the actual root cause of "QR not generating" (the canvas silently stayed blank with
+       no error shown). The GatePassQR component further below adds a visible retry + fallback
+       UI on top of this, for the case where BOTH CDNs are blocked. -->
+  <script defer src="./vendor/qrcode.min.js" data-runtime-key="qrcode"></script>
+
+  <!-- @vladmandic/face-api — actively-maintained, upgraded successor to the abandoned
+       justadudewhohacks/face-api.js. Loaded lazily (only when a user opens the Face ID panel)
+       via loadFaceApiModels() in the app script, not eagerly here, so a slow/blocked model CDN
+       never delays the rest of the portal. Unlike the original package, this fork ships its
+       model weights *inside* the published npm package itself, so jsDelivr/unpkg can serve both
+       the library AND the model weights straight from npm (fast, versioned, CDN-cached) instead
+       of proxying GitHub raw files — this is what was breaking Face ID sign-in before (the old
+       GitHub-proxy weight mirror is slow/rate-limited/occasionally 404s). All face detection,
+       landmarking and descriptor extraction still run entirely client-side in the browser — no
+       image or biometric data ever leaves the device. A same-origin fallback CDN (unpkg) is
+       swapped in automatically if the primary (jsDelivr) is blocked on this network. -->
+  <script src="./vendor/face-api.js" defer data-runtime-key="face-api"></script>
+
+  <style>
+    .animated-bg {
+      background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 50%, #e0f2fe 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0270c7;
+    }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-toast-in { animation: toastIn 0.25s ease-out; }
+
+    /* ---- Button press feedback ----------------------------------------------------------
+       Simple, flat (non-3D) press feedback for buttons and elevated cards. The pointer-
+       reactive 3D tilt/perspective layer that used to live here has been removed. */
+    button {
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    button:not(:disabled):active {
+      transform: translateY(1px) scale(0.98);
+    }
+    /* Subtle ambient depth for stat/kpi tiles, icon badges, and cards throughout dashboards. */
+    [class*="rounded-xl"][class*="shadow"] { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    [class*="rounded-xl"][class*="shadow"]:hover { transform: translateY(-2px); }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .animate-spin-fast { animation: spin 0.7s linear infinite; }
+
+    /* ===== GUARANTEED MOTION LAYER =========================================================
+       The three utilities below (animate-float / animate-marquee / animate-pulse-slow) are
+       normally generated on the fly by the Tailwind CDN script from the `tailwind.config`
+       `extend.animation` block up in <head>. On some laptops/networks that dynamic style
+       injection can lose the race with React's very first paint of the login/landing screen
+       (the icons mount before Tailwind's JIT has scanned them), so the class name exists on
+       the element but no matching CSS rule has been generated yet — the icon renders but never
+       moves. Defining the exact same class names as plain, static CSS right here removes that
+       race condition entirely: these rules are present the instant the stylesheet parses, long
+       before Tailwind, React or Babel have even started loading, so every "animate-float" /
+       "animate-marquee" / "animate-pulse-slow" element on the page is guaranteed to animate on
+       every device, laptop or otherwise. (Tailwind may still generate its own copy later — an
+       identical duplicate rule is harmless.) */
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+    .animate-marquee { animation: marquee 25s linear infinite; }
+    @keyframes pulse-slow-guaranteed { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
+    .animate-pulse-slow { animation: pulse-slow-guaranteed 4s cubic-bezier(0.4,0,0.6,1) infinite; }
+
+    /* ===== ADVANCED MOVING-ICON LIBRARY =====================================================
+       A richer set of independent float/drift/orbit/wiggle loops (different amplitudes,
+       durations and easing curves) so a cluster of icons feels alive and organic rather than
+       every icon bobbing in robotic lock-step. Pure CSS, no JS, so it costs nothing at runtime
+       and — like the block above — never depends on Tailwind's JIT finishing in time. */
+    @keyframes icon-float-a { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-14px) rotate(-6deg); } }
+    @keyframes icon-float-b { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(12px) rotate(5deg); } }
+    @keyframes icon-float-c { 0%, 100% { transform: translate(0,0) rotate(0deg); } 33% { transform: translate(6px,-10px) rotate(4deg); } 66% { transform: translate(-6px,-4px) rotate(-4deg); } }
+    @keyframes icon-drift { 0%, 100% { transform: translate(0,0); } 25% { transform: translate(8px,-8px); } 50% { transform: translate(0,-14px); } 75% { transform: translate(-8px,-6px); } }
+    @keyframes icon-spin-slow { to { transform: rotate(360deg); } }
+    @keyframes icon-wiggle { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
+    @keyframes icon-pop { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+    .icon-float-a { animation: icon-float-a 5.5s ease-in-out infinite; }
+    .icon-float-b { animation: icon-float-b 6.5s ease-in-out infinite; }
+    .icon-float-c { animation: icon-float-c 8s ease-in-out infinite; }
+    .icon-drift { animation: icon-drift 9s ease-in-out infinite; }
+    .icon-spin-slow { animation: icon-spin-slow 7s linear infinite; }
+    .icon-wiggle { animation: icon-wiggle 3.2s ease-in-out infinite; }
+    .icon-pop { animation: icon-pop 2.4s ease-in-out infinite; }
+    .anim-delay-1 { animation-delay: .4s; }
+    .anim-delay-2 { animation-delay: .9s; }
+    .anim-delay-3 { animation-delay: 1.5s; }
+    .anim-delay-4 { animation-delay: 2.1s; }
+    .anim-delay-5 { animation-delay: 2.8s; }
+
+    /* ===== ADVANCED MOVING TEXT LIBRARY ======================================================
+       "Shimmer" sweeps a soft light band across gradient headline text on a loop; "gradient
+       move" slowly pans a multi-stop gradient through the text so the colour itself travels;
+       "type-in" is a one-shot typewriter reveal for hero copy. Applied to the portal's key
+       headlines/brand text (login hero, dashboard header, section titles) for a cohesive,
+       premium, high-end motion feel without turning body copy into something unreadable. */
+    @keyframes text-shimmer-sweep { 0% { background-position: 200% center; } 100% { background-position: -200% center; } }
+    .text-shimmer {
+      background-image: linear-gradient(110deg, currentColor 35%, #ffffff 50%, currentColor 65%);
+      background-size: 250% auto;
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      animation: text-shimmer-sweep 3.6s linear infinite;
+    }
+    @keyframes text-gradient-move { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+    .text-gradient-move {
+      background-size: 200% auto;
+      animation: text-gradient-move 6s ease-in-out infinite;
+    }
+    @keyframes type-in-caret { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    .type-caret { display: inline-block; margin-left: 2px; animation: type-in-caret .8s step-end infinite; }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible {
+      outline: 2px solid #0c8ee9;
+      outline-offset: 2px;
+    }
+    @media print {
+      header, footer, .no-print { display: none !important; }
+      body * { visibility: hidden; }
+      #resume-preview-print, #resume-preview-print * { visibility: visible; }
+      #resume-preview-print { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none !important; border: none !important; }
+    }
+    /* Resume Builder layout variants */
+    .resume-tmpl-modern .resume-header { border-bottom: 3px solid var(--rc); padding-bottom: 8px; }
+    .resume-tmpl-minimal .resume-header { text-align: left; }
+    .resume-tmpl-minimal { font-family: 'Courier New', monospace; }
+    .resume-tmpl-sidebar { border-left: 6px solid var(--rc); padding-left: 16px !important; }
+    .resume-tmpl-bold .resume-header { background: var(--rc); margin: -1.5rem -1.5rem 1rem -1.5rem; padding: 1.25rem 1.5rem; border-radius: 1rem 1rem 0 0; }
+    .resume-tmpl-bold .resume-header h2, .resume-tmpl-bold .resume-header p { color: #fff !important; }
+    .resume-tmpl-elegant { font-family: Georgia, 'Times New Roman', serif; }
+    .resume-tmpl-elegant .resume-header { text-align: center; border-bottom: 1px solid var(--rc); padding-bottom: 10px; }
+
+    /* ===== DARK MODE ===== retargets the app's existing Tailwind utility classes wholesale so the
+       whole 8000-line UI gets a dark theme without touching every className individually. Toggled
+       via .dark-mode on <html>. */
+    html.dark-mode { color-scheme: dark; }
+    html.dark-mode body.animated-bg { background: linear-gradient(135deg,#0b1220 0%,#0f172a 50%,#0b1a2e 100%); background-size:400% 400%; }
+    html.dark-mode .bg-white, html.dark-mode .bg-white\/90, html.dark-mode .bg-white\/98 { background-color:#151f30 !important; }
+    html.dark-mode .bg-slate-50 { background-color:#0f172a !important; }
+    html.dark-mode .bg-slate-100 { background-color:#1e293b !important; }
+    html.dark-mode .bg-slate-900 { background-color:#0a0f1a !important; }
+    html.dark-mode .text-slate-900, html.dark-mode .text-slate-800, html.dark-mode .text-slate-700 { color:#e2e8f0 !important; }
+    html.dark-mode .text-slate-600, html.dark-mode .text-slate-500 { color:#94a3b8 !important; }
+    html.dark-mode .text-slate-400 { color:#64748b !important; }
+    html.dark-mode .border-slate-200, html.dark-mode .border-slate-100, html.dark-mode .border-slate-300 { border-color:#28374d !important; }
+    html.dark-mode .divide-slate-100 > * + * { border-color:#28374d !important; }
+    html.dark-mode .shadow-sm, html.dark-mode .shadow-md, html.dark-mode .shadow-xl, html.dark-mode .shadow-2xl { box-shadow:0 4px 20px rgba(0,0,0,0.45) !important; }
+    html.dark-mode ::-webkit-scrollbar-track { background:#0f172a; }
+    html.dark-mode ::-webkit-scrollbar-thumb { background:#334155; }
+
+    /* --- Light polish pass (additive only — no existing rule above is changed) --- */
+    html { scroll-behavior: smooth; }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    button, a, [role="button"] { transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease, opacity 0.12s ease; }
+    button:active:not(:disabled) { transform: scale(0.97); }
+    button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: 2px solid #6366f1; outline-offset: 2px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+    }
+  
+/* Phase 3 advanced workspaces */
+.adv-workspace{width:100%;}.adv-panel{background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(248,250,252,.98));border:1px solid rgba(148,163,184,.22);border-radius:24px;padding:18px;box-shadow:0 16px 45px rgba(15,23,42,.07)}
+.adv-eyebrow{font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#6366f1}.adv-title{font-size:20px;font-weight:950;color:#0f172a;margin-top:3px}.adv-muted{font-size:11px;color:#64748b;margin-top:3px}.adv-live-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#ecfdf5;color:#047857;font-size:10px;font-weight:900;border:1px solid #a7f3d0}.adv-action{min-height:94px;padding:14px;border:1px solid #e2e8f0;border-radius:18px;background:#fff;display:flex;flex-direction:column;gap:5px;transition:.18s}.adv-action:hover{transform:translateY(-2px);border-color:#818cf8;box-shadow:0 10px 25px rgba(99,102,241,.12)}.adv-step{font-size:10px;font-weight:950;color:#6366f1}.adv-empty{padding:24px;text-align:center;border:1px dashed #cbd5e1;border-radius:18px;color:#64748b;font-size:11px}.adv-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid #e2e8f0;border-radius:15px;background:#fff}.adv-chip{font-size:10px;font-weight:900;padding:6px 9px;border-radius:999px;background:#eef2ff;color:#4338ca;white-space:nowrap}.adv-select,.adv-input{min-height:40px;border:1px solid #cbd5e1;border-radius:12px;background:#fff;padding:0 11px;font-size:11px;font-weight:700}.adv-primary,.adv-secondary{min-height:42px;border-radius:12px;padding:0 14px;font-size:11px;font-weight:900}.adv-primary{background:#4f46e5;color:#fff}.adv-secondary{background:#f1f5f9;color:#334155}.adv-timer{font-variant-numeric:tabular-nums;font-size:30px;font-weight:950;color:#4f46e5;letter-spacing:.04em}@media(max-width:640px){.adv-panel{padding:14px;border-radius:20px}.adv-row{align-items:flex-start}.adv-timer{font-size:24px}}@media(prefers-reduced-motion:reduce){.adv-action{transition:none}.adv-action:hover{transform:none}}
+
+/* Faculty account form: explicit contrast prevents theme/global input rules from making typed text invisible. */
+.faculty-create-form input, .faculty-create-form select { color:#f8fafc !important; -webkit-text-fill-color:#f8fafc !important; caret-color:#fff !important; background-color:#0f172a !important; border-color:#334155 !important; opacity:1 !important; color-scheme:dark; }
+.faculty-create-form input::placeholder { color:#94a3b8 !important; -webkit-text-fill-color:#94a3b8 !important; opacity:1 !important; }
+.faculty-create-form input:focus, .faculty-create-form select:focus { color:#fff !important; -webkit-text-fill-color:#fff !important; background-color:#111827 !important; border-color:#60a5fa !important; box-shadow:0 0 0 3px rgba(96,165,250,.18) !important; outline:none !important; }
+.faculty-create-form input:-webkit-autofill, .faculty-create-form input:-webkit-autofill:hover, .faculty-create-form input:-webkit-autofill:focus { -webkit-text-fill-color:#fff !important; -webkit-box-shadow:0 0 0 1000px #0f172a inset !important; box-shadow:0 0 0 1000px #0f172a inset !important; caret-color:#fff !important; }
+</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print">
+  <style id="mis-ui-polish">
+    /* ===== Mock Interview Studio + app-wide UI polish (additive; safe to remove as one block) ===== */
+    /* -- Studio components -- */
+    .mis-fade-in { animation: misFadeIn .35s ease both; }
+    @keyframes misFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .mis-spinner { width: 34px; height: 34px; border-radius: 50%; border: 3px solid rgba(99,102,241,.2); border-top-color: #6366f1; animation: misSpin .8s linear infinite; }
+    @keyframes misSpin { to { transform: rotate(360deg); } }
+    .mis-pulse-ring { animation: misPulse 1.4s ease-out infinite; }
+    @keyframes misPulse { 0% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(1.3); } }
+    .mis-pulse-ring-dot { animation: misDot 1.2s ease-in-out infinite; }
+    @keyframes misDot { 0%, 100% { box-shadow: 0 0 0 0 rgba(225,29,72,.5); } 50% { box-shadow: 0 0 0 10px rgba(225,29,72,0); } }
+    .mis-quote { letter-spacing: -.005em; }
+    .mis-bar-fill { transition: width .6s cubic-bezier(.22,1,.36,1); }
+    .mis-card { transition: box-shadow .2s ease, border-color .2s ease; }
+    .mis-btn { transition: transform .12s ease, background-color .15s ease, box-shadow .15s ease, opacity .15s ease; }
+    .mis-btn:active:not(:disabled) { transform: scale(.97); }
+    .mis-input { font-family: inherit; }
+    .mis-input::placeholder { color: #94a3b8; }
+    .no-scrollbar { scrollbar-width: none; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .mis-hub details > summary { list-style: none; }
+    .mis-hub details > summary::-webkit-details-marker { display: none; }
+    html.dark-mode .mis-input::placeholder { color: #64748b; }
+    html.dark-mode .mis-hub .mis-card { border-color: #263449; }
+
+    /* -- App-wide polish -- */
+    html { -webkit-text-size-adjust: 100%; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-feature-settings: 'cv11', 'ss01'; }
+    * { -webkit-tap-highlight-color: transparent; }
+    ::selection { background: #c7d2fe; color: #1e1b4b; }
+    :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible { outline: 2px solid #6366f1; outline-offset: 2px; }
+    button:not(:disabled) { cursor: pointer; }
+    button:disabled { cursor: not-allowed; }
+    html .shadow-sm { box-shadow: 0 1px 2px rgba(15,23,42,.05), 0 6px 16px -8px rgba(15,23,42,.10); }
+    html .shadow-md { box-shadow: 0 2px 4px rgba(15,23,42,.05), 0 10px 24px -10px rgba(15,23,42,.16); }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-thumb { background: rgba(148,163,184,.45); border-radius: 999px; border: 2px solid transparent; background-clip: content-box; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(100,116,139,.6); background-clip: content-box; border: 2px solid transparent; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    textarea, input, select { font-family: inherit; }
+    @media (prefers-reduced-motion: reduce) {
+      .animate-float, .animate-pulse, .animate-bounce, .animate-ping, body.animated-bg, .mis-pulse-ring, .mis-pulse-ring-dot, .mis-fade-in { animation: none !important; }
+      html { scroll-behavior: auto !important; }
+    }
+  </style>
+
+<style id="cps-auth-premium">
+/* Campus Portal — standalone authentication experience.
+   This layer intentionally does not depend on Tailwind/CDN assets, so the login page
+   remains polished even when browser vendor assets are unavailable or still warming up. */
+.cp-auth-page{box-sizing:border-box;min-height:100svh;width:100%;padding:72px 20px 28px;background:
+ radial-gradient(900px 520px at 8% 8%,rgba(14,165,233,.20),transparent 58%),
+ radial-gradient(760px 500px at 92% 14%,rgba(99,102,241,.22),transparent 58%),
+ linear-gradient(135deg,#071426 0%,#0a1d38 46%,#0d1730 100%)!important;color:#f8fafc;overflow-x:hidden;isolation:isolate}
+.cp-auth-page,.cp-auth-page *{box-sizing:border-box}
+.cp-auth-page:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:36px 36px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),transparent 92%)}
+.cp-auth-decor .absolute{position:absolute}.cp-auth-decor .-top-40{top:-10rem}.cp-auth-decor .-right-40{right:-10rem}.cp-auth-decor .-bottom-40{bottom:-10rem}.cp-auth-decor .-left-40{left:-10rem}
+.cp-auth-ticker{position:absolute!important;top:0;left:0;right:0;height:38px;padding:10px 0!important;background:rgba(2,8,23,.52)!important;border-bottom:1px solid rgba(255,255,255,.08)!important;color:#cfe5ff!important;font-size:11px!important;line-height:18px;white-space:nowrap;overflow:hidden;backdrop-filter:blur(14px);z-index:20}
+.cp-auth-ticker>div{display:inline-block;min-width:max-content;animation:cpAuthMarquee 32s linear infinite}@keyframes cpAuthMarquee{from{transform:translateX(0)}to{transform:translateX(-42%)}}
+.cp-auth-layout{display:grid!important;grid-template-columns:minmax(0,1.05fr) minmax(380px,.95fr)!important;gap:52px!important;align-items:center!important;width:min(1120px,100%)!important;margin:0 auto!important}
+.cp-auth-layout>*{grid-column:auto!important;min-width:0!important}
+.cp-auth-features{display:flex!important;flex-direction:column!important;gap:18px!important;padding-right:18px!important}
+.cp-auth-features>div:first-child p{margin:0 0 8px;font-size:11px;line-height:1.2;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:#7dd3fc}
+.cp-auth-features>div:first-child h2{margin:0;font-size:clamp(30px,3.5vw,48px);line-height:1.02;font-weight:900;letter-spacing:-.035em;color:#fff}
+.cp-auth-features>div:first-child h2 span{color:#93c5fd}
+.cp-auth-features>div:last-child{display:flex!important;flex-direction:column!important;gap:10px!important}
+.cp-auth-feature{display:flex!important;align-items:center!important;gap:13px!important;min-height:64px;padding:11px 14px!important;border-radius:18px!important;background:rgba(255,255,255,.075)!important;border:1px solid rgba(255,255,255,.11)!important;box-shadow:0 12px 28px rgba(0,0,0,.13);backdrop-filter:blur(14px);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.cp-auth-feature:hover{transform:translateX(4px);background:rgba(255,255,255,.10)!important;border-color:rgba(125,211,252,.30)!important}
+.cp-auth-feature>span{width:42px!important;height:42px!important;min-width:42px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:13px!important;color:#fff!important}
+.cp-auth-feature svg{width:20px!important;height:20px!important;display:block!important;flex:0 0 20px}
+.cp-auth-feature p{margin:0!important;font-size:13px!important;line-height:1.35!important;font-weight:700!important;color:#dbeafe!important}
+.cp-auth-panel{width:100%!important;max-width:500px!important;margin:0!important}
+.cp-auth-brand{margin-bottom:20px!important}
+.cp-auth-brand>div:first-child{width:68px!important;height:68px!important;margin:0 auto 15px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:20px!important;background:linear-gradient(145deg,#38bdf8,#2563eb)!important;box-shadow:0 18px 45px rgba(37,99,235,.35),0 0 0 7px rgba(255,255,255,.07)!important}
+.cp-auth-brand>div:first-child svg{width:34px!important;height:34px!important;display:block!important}
+.cp-auth-brand h1{margin:0!important;font-size:clamp(25px,3vw,34px)!important;line-height:1.08!important;font-weight:900!important;letter-spacing:-.03em!important;color:#fff!important;background:none!important;-webkit-text-fill-color:#fff!important}
+.cp-auth-brand>p{max-width:470px!important;margin:9px auto 0!important;font-size:13px!important;line-height:1.5!important;color:#bfdbfe!important}
+.cp-auth-brand>div:last-child{display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;flex-wrap:wrap!important;margin-top:13px!important}
+.cp-auth-brand>div:last-child span{display:inline-flex!important;align-items:center!important;gap:5px!important;padding:6px 9px!important;border-radius:999px!important;background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,255,255,.11)!important;color:#dbeafe!important;font-size:10px!important;font-weight:800!important}
+.cp-auth-brand>div:last-child svg{width:12px!important;height:12px!important;display:block!important}
+.cp-auth-card{width:100%!important;padding:25px!important;border-radius:26px!important;background:rgba(255,255,255,.97)!important;border:1px solid rgba(255,255,255,.68)!important;box-shadow:0 30px 80px rgba(0,0,0,.30)!important;color:#0f172a!important;overflow:hidden!important}
+.cp-auth-card>div:first-child{height:4px!important;position:absolute!important;top:0;left:0;right:0;background:linear-gradient(90deg,#38bdf8,#2563eb,#7c3aed)!important}
+.cp-auth-card form{display:flex!important;flex-direction:column!important;gap:14px!important;font-size:12px!important}
+.cp-auth-card form h3{margin:0!important;padding:0 0 12px!important;border-bottom:1px solid #e8edf4!important;font-size:18px!important;line-height:1.2!important;font-weight:900!important;color:#0f172a!important}
+.cp-auth-card label{display:block!important;margin:0 0 6px!important;font-size:12px!important;font-weight:800!important;color:#334155!important}
+.cp-auth-role-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+.cp-auth-role{min-height:70px!important;padding:10px 7px!important;border-radius:15px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;border:1px solid #dce3ec!important;background:#f8fafc!important;color:#475569!important}
+.cp-auth-role svg{width:19px!important;height:19px!important;display:block!important}
+.cp-auth-role span{display:block!important;text-align:center!important;font-size:11px!important;line-height:1.15!important;font-weight:900!important}
+.cp-auth-role span:last-child{font-size:9px!important;color:#94a3b8!important;font-weight:700!important}
+.cp-auth-card input:not([type=checkbox]):not([type=file]),.cp-auth-card select{width:100%!important;min-height:44px!important;border:1px solid #cbd5e1!important;border-radius:12px!important;background:#f8fafc!important;padding:10px 12px!important;color:#0f172a!important;font-size:13px!important;font-weight:700!important;outline:none!important}
+.cp-auth-card input:not([type=checkbox]):not([type=file]):focus{background:#fff!important;border-color:#3b82f6!important;box-shadow:0 0 0 4px rgba(59,130,246,.12)!important}
+.cp-auth-card input[type=checkbox]{width:15px!important;height:15px!important}
+.cp-auth-card form button{font-family:inherit}
+.cp-auth-card form>button[type=submit]{width:100%!important;min-height:46px!important;border:0!important;border-radius:13px!important;background:linear-gradient(135deg,#2563eb,#1d4ed8)!important;color:#fff!important;font-size:13px!important;font-weight:900!important;box-shadow:0 12px 24px rgba(37,99,235,.25)!important}
+.cp-auth-card form>button[type=submit]:hover{transform:translateY(-1px);box-shadow:0 16px 30px rgba(37,99,235,.30)!important}
+.cp-auth-card form p{line-height:1.45!important}
+.cp-auth-card .relative{position:relative}
+.cp-auth-card .absolute{position:absolute}
+.cp-auth-card .flex{display:flex}
+.cp-auth-card .items-center{align-items:center}
+.cp-auth-card .justify-center{justify-content:center}
+.cp-auth-card .justify-between{justify-content:space-between}
+.cp-auth-card svg{display:block!important;max-width:100%!important}
+.cp-auth-page~#cp-account-widget-root,#cp-account-widget-root:has(+ .cp-auth-page){display:none!important}
+body:has(.cp-auth-page) #cp-account-widget-root{display:none!important}
+#cp-account-widget-root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+@media(max-width:900px){
+ .cp-auth-page{padding:58px 16px 24px;align-items:stretch!important;justify-content:flex-start!important}
+ .cp-auth-layout{display:block!important;width:min(560px,100%)!important;margin:24px auto 0!important}
+ .cp-auth-features{display:none!important}
+ .cp-auth-panel{max-width:560px!important;margin:0 auto!important}
+ .cp-auth-brand{margin-bottom:17px!important}
+ .cp-auth-brand>div:first-child{width:58px!important;height:58px!important;border-radius:17px!important;margin-bottom:11px!important}
+ .cp-auth-brand>div:first-child svg{width:29px!important;height:29px!important}
+ .cp-auth-brand h1{font-size:25px!important}
+ .cp-auth-brand>p{font-size:12px!important;max-width:430px!important}
+ .cp-auth-card{padding:20px!important;border-radius:22px!important}
+ .cp-auth-role{min-height:66px!important}
+}
+@media(max-width:520px){
+ .cp-auth-page{padding-left:12px;padding-right:12px}
+ .cp-auth-layout{margin-top:18px!important}
+ .cp-auth-brand h1{font-size:23px!important}
+ .cp-auth-brand>p{font-size:11.5px!important}
+ .cp-auth-card{padding:17px!important;border-radius:20px!important}
+ .cp-auth-card form{gap:12px!important}
+ .cp-auth-role-grid{gap:7px!important}
+ .cp-auth-role{min-height:62px!important;padding:8px 4px!important}
+ .cp-auth-ticker{font-size:10px!important}
+}
+@media(prefers-reduced-motion:reduce){.cp-auth-ticker>div,.cp-auth-page *{animation:none!important;transition:none!important}}
+
+/* v9 login polish: (1) text no longer overlaps the mail/lock/status icons, (2) clean "Remember me" checkbox. */
+.cp-auth-card .relative>svg.absolute{position:absolute!important;top:50%!important;transform:translateY(-50%)!important;width:16px!important;height:16px!important;flex:0 0 16px;z-index:2;pointer-events:none}
+.cp-auth-card .relative>svg.absolute.left-3{left:14px!important;right:auto!important}
+.cp-auth-card .relative>svg.absolute.right-3{right:14px!important;left:auto!important}
+.cp-auth-card .relative>svg.absolute.left-3~input:not([type=checkbox]):not([type=file]){padding-left:44px!important}
+.cp-auth-card .relative>input:not([type=checkbox]):not([type=file]):has(~svg.absolute.right-3){padding-right:42px!important}
+.cp-auth-card .relative>input:not([type=checkbox]):not([type=file]):has(~button.absolute){padding-right:52px!important}
+.cp-auth-card .relative>button.absolute{position:absolute!important;right:6px!important;top:50%!important;transform:translateY(-50%)!important;width:36px!important;height:36px!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important;z-index:2}
+.cp-auth-card .relative>button.absolute svg{width:16px!important;height:16px!important}
+.cp-auth-card .relative>svg.absolute.left-3~input::placeholder{color:#94a3b8;font-weight:600}
+.cp-auth-card .relative:focus-within>svg.absolute.left-3{color:#2563eb}
+/* Remember me: keep the label a flex row (the generic label{display:block} rule broke it) */
+.cp-auth-card label:has(>input[type=checkbox]){display:inline-flex!important;align-items:center!important;gap:8px!important;margin:0!important;cursor:pointer;user-select:none;font-size:12px!important;font-weight:700!important;color:#475569!important;line-height:1.2}
+.cp-auth-card input[type=checkbox]{-webkit-appearance:none!important;appearance:none!important;flex:0 0 18px;width:18px!important;height:18px!important;min-height:0!important;margin:0!important;padding:0!important;border:1.5px solid #94a3b8!important;border-radius:6px!important;background:#fff!important;display:inline-grid!important;place-content:center;cursor:pointer;outline:none!important;box-shadow:none!important;transition:background .15s ease,border-color .15s ease,transform .1s ease}
+.cp-auth-card input[type=checkbox]::before{content:"";width:10px;height:10px;transform:scale(0);transition:transform .12s ease;background:#fff;clip-path:polygon(14% 44%,0 65%,50% 100%,100% 16%,80% 0,43% 62%)}
+.cp-auth-card input[type=checkbox]:checked{background:#2563eb!important;border-color:#2563eb!important}
+.cp-auth-card input[type=checkbox]:checked::before{transform:scale(1)}
+.cp-auth-card input[type=checkbox]:hover{border-color:#3b82f6!important}
+.cp-auth-card input[type=checkbox]:active{transform:scale(.92)}
+.cp-auth-card input[type=checkbox]:focus{outline:none!important;box-shadow:none!important}
+.cp-auth-card input[type=checkbox]:focus-visible{outline:none!important;box-shadow:0 0 0 3px rgba(59,130,246,.28)!important}
+.cp-auth-card label:has(>input[type=checkbox]):focus-within{outline:none}
+</style>
+
+<style id="cps-existing-only-premium-ui">
+/*
+ * Campus Portal Studio — existing-feature premium UI layer
+ * IMPORTANT: presentation only. No routes, state, APIs, data, AI services,
+ * components, or workflows are introduced here.
+ */
+:root{
+  --cps-ink:#0b1220;
+  --cps-muted:#667085;
+  --cps-line:#e7ebf2;
+  --cps-surface:rgba(255,255,255,.88);
+  --cps-brand:#1769e0;
+  --cps-brand2:#6d5dfc;
+  --cps-cyan:#16b8e9;
+  --cps-shadow:0 18px 50px rgba(15,23,42,.075);
+}
+body{background:
+  radial-gradient(850px 420px at 8% -10%,rgba(23,105,224,.10),transparent 62%),
+  radial-gradient(700px 360px at 92% 0%,rgba(109,93,252,.08),transparent 62%),
+  #f7f9fc!important;color:var(--cps-ink);
+}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.30;background-image:linear-gradient(rgba(15,23,42,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(15,23,42,.025) 1px,transparent 1px);background-size:32px 32px;mask-image:linear-gradient(to bottom,black,transparent 78%)}
+/* Existing top header: upgraded into the primary navigation command surface. */
+header.bg-white\/90{background:rgba(255,255,255,.78)!important;border-bottom-color:rgba(226,232,240,.82)!important;box-shadow:0 10px 35px rgba(15,23,42,.055)!important;backdrop-filter:blur(22px) saturate(140%);}
+header.bg-white\/90 > div{min-height:68px}
+header.bg-white\/90 .p-2\.5.rounded-2xl.border{position:relative;display:inline-flex;align-items:center;justify-content:center;width:46px;height:42px;border-radius:14px!important;background:linear-gradient(145deg,#ffffff,#eef3fa)!important;border:1px solid #dbe3ee!important;box-shadow:0 7px 18px rgba(15,23,42,.09),inset 0 1px 0 #fff;color:#475569!important;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;background-clip:padding-box;}
+header.bg-white\/90 .p-2\.5.rounded-2xl.border:before{content:"";position:absolute;inset:4px;border-radius:10px;border:1px solid rgba(23,105,224,.10);pointer-events:none}
+header.bg-white\/90 .p-2\.5.rounded-2xl.border:after{content:"FEATURES";position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:3px;white-space:nowrap;font-size:9px;font-weight:900;letter-spacing:.13em;color:#64748b;pointer-events:none;}
+header.bg-white\/90 .p-2\.5.rounded-2xl.border:hover{transform:translateY(-2px);border-color:#b9c9e0!important;box-shadow:0 12px 25px rgba(15,23,42,.13),0 0 0 4px rgba(23,105,224,.07)}
+header.bg-white\/90 .p-2\.5.rounded-2xl.border:active{transform:translateY(0) scale(.97)}
+header.bg-white\/90 .p-2\.5.rounded-2xl.border.bg-brand-600{background:linear-gradient(135deg,#1458c7,#6d5dfc)!important;border-color:#245dd0!important;color:#fff!important;box-shadow:0 12px 30px rgba(37,91,208,.28),0 0 0 4px rgba(23,105,224,.10)}
+header.bg-white\/90 .p-2\.5.rounded-2xl.border.bg-brand-600:after{color:#245dd0}
+header.bg-white\/90 .p-2\.5.rounded-2xl.border.bg-brand-600:before{border-color:rgba(255,255,255,.18)}
+/* Existing dashboard/features menu — same items, much richer presentation. */
+header.bg-white\/90 .absolute.top-full.left-0.mt-2.w-\[92vw\]{width:min(720px,92vw)!important;padding:14px!important;border-radius:22px!important;background:rgba(255,255,255,.94)!important;border:1px solid rgba(215,224,236,.9)!important;box-shadow:0 28px 80px rgba(15,23,42,.18),0 4px 14px rgba(15,23,42,.06)!important;backdrop-filter:blur(24px) saturate(140%);}
+header.bg-white\/90 .absolute.top-full.left-0.mt-2.w-\[92vw\] > div:first-child{padding:7px 8px 11px!important;margin-bottom:7px!important;border-bottom:1px solid #edf1f6!important;}
+header.bg-white\/90 .absolute.top-full.left-0.mt-2.w-\[92vw\] > div:first-child span{font-size:9px!important;letter-spacing:.16em!important;color:#64748b!important}
+header.bg-white\/90 .absolute.top-full.left-0.mt-2.w-\[92vw\] .grid.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px!important}
+header.bg-white\/90 .absolute.top-full.left-0.mt-2.w-\[92vw\] .grid.grid-cols-2 > button{min-height:58px;padding:11px 12px!important;border-radius:15px!important;background:linear-gradient(180deg,#fff,#f8fafc)!important;border:1px solid #e7ecf3!important;box-shadow:0 5px 14px rgba(15,23,42,.045);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease!important}
+header.bg-white\/90 .absolute.top-full.left-0.mt-2.w-\[92vw\] .grid.grid-cols-2 > button:hover{transform:translateY(-2px);border-color:#bfd0e7!important;box-shadow:0 12px 24px rgba(15,23,42,.10)!important;background:#fff!important}
+header.bg-white\/90 .absolute.top-full.left-0.mt-2.w-\[92vw\] .grid.grid-cols-2 > button.bg-gradient-to-br{background:linear-gradient(135deg,#165dca,#6658e8)!important;border-color:transparent!important;box-shadow:0 12px 26px rgba(44,83,190,.25)!important;color:#fff!important}
+header.bg-white\/90 .absolute.top-full.left-0.mt-2.w-\[92vw\] .grid.grid-cols-2 > button svg{width:18px!important;height:18px!important;flex:0 0 18px;filter:drop-shadow(0 2px 4px rgba(15,23,42,.08))}
+/* Existing command palette/search, theme and notifications become a coherent control rail. */
+header.bg-white\/90 .flex.items-center.gap-3.ml-auto > button,
+header.bg-white\/90 .flex.items-center.gap-3.ml-auto > .relative > button{box-shadow:0 5px 14px rgba(15,23,42,.045);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease!important}
+header.bg-white\/90 .flex.items-center.gap-3.ml-auto > button:hover,
+header.bg-white\/90 .flex.items-center.gap-3.ml-auto > .relative > button:hover{transform:translateY(-1px);box-shadow:0 9px 20px rgba(15,23,42,.09)}
+/* Existing Quick Access dock: remains the same feature set, but now reads as a premium command rail. */
+.no-print.fixed.top-0.left-0.right-0.z-50 > div{background:rgba(248,250,252,.86)!important;border-bottom:1px solid rgba(210,220,233,.9)!important;box-shadow:0 18px 45px rgba(15,23,42,.12)!important;backdrop-filter:blur(22px) saturate(145%)}
+.no-print.fixed.top-0.left-0.right-0.z-50 .max-w-7xl{padding-top:9px!important;padding-bottom:9px!important}
+.no-print.fixed.top-0.left-0.right-0.z-50 .max-w-7xl > button{border:1px solid #e1e7f0!important;background:rgba(255,255,255,.82)!important;box-shadow:0 5px 12px rgba(15,23,42,.04);transition:transform .18s ease,box-shadow .18s ease!important}
+.no-print.fixed.top-0.left-0.right-0.z-50 .max-w-7xl > button:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(15,23,42,.08)}
+.no-print.fixed.top-0.left-0.right-0.z-50 .max-w-7xl > button.bg-gradient-to-br{color:#fff!important;border-color:transparent!important;background-image:linear-gradient(135deg,#155ec9,#6758e8)!important;box-shadow:0 8px 18px rgba(43,83,188,.20)!important}
+/* Existing content surfaces: depth without changing their DOM or data. */
+main .bg-white{background:rgba(255,255,255,.90)!important;border-color:rgba(226,232,240,.88)!important;box-shadow:0 12px 35px rgba(15,23,42,.045),0 1px 2px rgba(15,23,42,.025)!important;backdrop-filter:blur(10px)}
+main .rounded-3xl{border-radius:24px!important}
+main .rounded-2xl{border-radius:17px!important}
+main .rounded-xl{border-radius:13px!important}
+main .bg-white:hover{box-shadow:0 18px 45px rgba(15,23,42,.065),0 2px 4px rgba(15,23,42,.03)!important}
+main input,main select,main textarea{transition:border-color .18s ease,box-shadow .18s ease,background .18s ease,transform .18s ease!important}
+main input:focus,main select:focus,main textarea:focus{border-color:#7da7e8!important;box-shadow:0 0 0 4px rgba(23,105,224,.09),0 8px 20px rgba(15,23,42,.045)!important;outline:none!important;background:#fff!important}
+main textarea.cps-code-editor:focus{background:#020617!important;color:#e2e8f0!important}
+main button{transition:transform .18s ease,box-shadow .18s ease,filter .18s ease!important}
+main button:hover:not(:disabled){filter:saturate(1.04)}
+main button:focus-visible,header button:focus-visible{outline:3px solid rgba(23,105,224,.28)!important;outline-offset:2px}
+/* Existing dashboard hero surfaces become more editorial and less like generic cards. */
+main .bg-gradient-to-r.from-brand-950{box-shadow:0 24px 60px rgba(8,39,73,.18)!important;position:relative;overflow:hidden}
+main .bg-gradient-to-r.from-brand-950:after{content:"";position:absolute;right:-90px;top:-120px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(56,189,248,.20),transparent 68%);pointer-events:none}
+/* Existing sticky Skill Hub tabs get a premium segmented-control treatment. */
+main .sticky.top-\[56px\]{box-shadow:0 12px 25px rgba(15,23,42,.06)!important;border-radius:0 0 16px 16px}
+/* Existing tables/lists feel denser and more product-grade. */
+main .divide-y > *{transition:background .15s ease}
+main .divide-y > *:hover{background:rgba(239,246,255,.58)}
+/* Keep the existing mobile layout; only improve its surfaces. */
+@media(max-width:640px){
+  header.bg-white\/90 > div{min-height:62px;padding-top:9px!important;padding-bottom:9px!important}
+  header.bg-white\/90 .p-2\.5.rounded-2xl.border{width:42px;height:40px}
+  header.bg-white\/90 .p-2\.5.rounded-2xl.border:after{content:""}
+  header.bg-white\/90 .absolute.top-full.left-0.mt-2.w-\[92vw\]{width:calc(100vw - 20px)!important;left:0!important;border-radius:20px!important}
+  header.bg-white\/90 .absolute.top-full.left-0.mt-2.w-\[92vw\] .grid.grid-cols-2{grid-template-columns:1fr!important}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+}
+html.dark-mode body{background:radial-gradient(800px 420px at 8% -10%,rgba(23,105,224,.16),transparent 62%),radial-gradient(700px 360px at 92% 0%,rgba(109,93,252,.13),transparent 62%),#0b1220!important}
+html.dark-mode header.bg-white\/90{background:rgba(15,23,42,.78)!important;border-bottom-color:#263449!important}
+html.dark-mode header.bg-white\/90 .p-2\.5.rounded-2xl.border{background:linear-gradient(145deg,#172235,#101a2b)!important;border-color:#30415a!important;color:#dbeafe!important}
+html.dark-mode header.bg-white\/90 .absolute.top-full.left-0.mt-2.w-\[92vw\]{background:rgba(15,23,42,.96)!important;border-color:#2b3a51!important}
+html.dark-mode header.bg-white\/90 .absolute.top-full.left-0.mt-2.w-\[92vw\] .grid.grid-cols-2 > button{background:linear-gradient(180deg,#172235,#111b2c)!important;border-color:#2b3a51!important;color:#cbd5e1!important}
+html.dark-mode .no-print.fixed.top-0.left-0.right-0.z-50 > div{background:rgba(15,23,42,.88)!important;border-color:#28374d!important}
+html.dark-mode main .bg-white{background:rgba(21,31,48,.92)!important;border-color:#28374d!important}
+html.dark-mode main .bg-white:hover{box-shadow:0 18px 45px rgba(0,0,0,.30)!important}
+html.dark-mode main input,html.dark-mode main select,html.dark-mode main textarea{background:#0f172a!important;border-color:#30415a!important;color:#e2e8f0!important}
+</style>
+
+
+<style id="cps-phase1-advanced-system">
+/* Phase 1 — advanced design-system layer. Additive only; existing React/data contracts stay intact. */
+:root{
+ --cps-bg:#f6f8fc; --cps-panel:rgba(255,255,255,.82); --cps-panel-solid:#fff;
+ --cps-text:#0f172a; --cps-sub:#64748b; --cps-border:rgba(148,163,184,.22);
+ --cps-accent:#4f46e5; --cps-accent-2:#0ea5e9; --cps-ring:rgba(79,70,229,.22);
+ --cps-r1:12px; --cps-r2:18px; --cps-r3:24px;
+ --cps-shadow-1:0 1px 2px rgba(15,23,42,.05),0 8px 28px rgba(15,23,42,.05);
+ --cps-shadow-2:0 18px 55px rgba(15,23,42,.10);
+}
+html.dark-mode{--cps-bg:#070b14;--cps-panel:rgba(15,23,42,.78);--cps-panel-solid:#0f172a;--cps-text:#e5edf8;--cps-sub:#94a3b8;--cps-border:rgba(148,163,184,.18);--cps-shadow-1:0 1px 2px rgba(0,0,0,.2),0 12px 34px rgba(0,0,0,.20);--cps-shadow-2:0 22px 70px rgba(0,0,0,.32)}
+body{background:var(--cps-bg)!important;color:var(--cps-text)}
+#root{min-height:100vh}
+/* Richer app surfaces without changing existing component semantics. */
+#root .rounded-2xl.border,#root .rounded-3xl.border{border-color:var(--cps-border)!important;box-shadow:var(--cps-shadow-1);}
+#root .rounded-2xl.border:hover,#root .rounded-3xl.border:hover{box-shadow:var(--cps-shadow-2);border-color:rgba(99,102,241,.24)!important}
+#root input,#root textarea,#root select{min-height:42px;border-radius:12px;transition:border-color .16s ease,box-shadow .16s ease,background .16s ease}
+#root input:focus,#root textarea:focus,#root select:focus{border-color:rgba(79,70,229,.55)!important;box-shadow:0 0 0 4px var(--cps-ring)!important;outline:none}
+#root button{min-height:40px}
+#root table thead th{position:sticky;top:0;z-index:2;background:var(--cps-panel-solid);backdrop-filter:blur(12px)}
+/* Existing tab/navigation buttons: premium active state, not a new navigation system. */
+#root nav button,[role="tab"]{position:relative}
+#root nav button:after,[role="tab"][aria-selected="true"]:after{content:"";position:absolute;left:16%;right:16%;bottom:2px;height:2px;border-radius:999px;background:linear-gradient(90deg,var(--cps-accent),var(--cps-accent-2));opacity:.95;transform:scaleX(1);}
+/* Existing command/search controls read as a unified command rail. */
+#root header{isolation:isolate}
+#root header button{border-radius:12px}
+/* Keep long lists usable on phones. */
+@media(max-width:640px){
+ #root{font-size:14px}
+ #root .max-w-7xl,#root .max-w-6xl,#root .max-w-5xl,#root .max-w-4xl{max-width:100%!important}
+ #root .overflow-x-auto{overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+ #root .grid{min-width:0}
+ #root button{min-height:44px}
+ #root input,#root textarea,#root select{min-height:44px}
+}
+@media(prefers-reduced-motion:reduce){#root *,#root *:before,#root *:after{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+.cps-skip{position:fixed;left:12px;top:10px;z-index:100000;transform:translateY(-140%);padding:10px 14px;border-radius:12px;background:#111827;color:white;font-weight:800;box-shadow:var(--cps-shadow-2)}
+.cps-skip:focus{transform:none}
+.cps-shell-status{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border:1px solid var(--cps-border);border-radius:999px;background:var(--cps-panel);font-size:10px;font-weight:800;color:var(--cps-sub);backdrop-filter:blur(14px)}
+.cps-shell-status i{width:7px;height:7px;border-radius:50%;background:#10b981;box-shadow:0 0 0 4px rgba(16,185,129,.12)}
+html.dark-mode .cps-shell-status{background:rgba(15,23,42,.82);color:#cbd5e1}
+</style>
+<style id="cp-recovery-modal-fix">
+/* Recovery modal contrast fix: the modal is rendered outside .cp-auth-card, so auth-card
+   input rules do not apply to it. Keep typed e-mail/code/password text explicitly visible
+   in both light and dark themes, including Android/WebView autofill. */
+.cp-recovery-modal{color:#0f172a}
+.cp-recovery-modal input:not([type=checkbox]):not([type=file]){
+  width:100%!important;min-height:48px!important;border:1px solid #cbd5e1!important;
+  border-radius:13px!important;background:#f8fafc!important;color:#0f172a!important;
+  -webkit-text-fill-color:#0f172a!important;caret-color:#2563eb!important;
+  opacity:1!important;font-size:14px!important;font-weight:700!important;
+  padding:11px 13px!important;outline:none!important;box-shadow:none!important;
+}
+.cp-recovery-modal input:not([type=checkbox]):not([type=file]):focus{
+  background:#fff!important;border-color:#2563eb!important;
+  box-shadow:0 0 0 4px rgba(37,99,235,.12)!important;
+}
+.cp-recovery-modal input::placeholder{
+  color:#94a3b8!important;-webkit-text-fill-color:#94a3b8!important;opacity:1!important;
+}
+.cp-recovery-modal input:-webkit-autofill,
+.cp-recovery-modal input:-webkit-autofill:hover,
+.cp-recovery-modal input:-webkit-autofill:focus{
+  -webkit-text-fill-color:#0f172a!important;
+  -webkit-box-shadow:0 0 0 1000px #f8fafc inset!important;
+  box-shadow:0 0 0 1000px #f8fafc inset!important;
+}
+.cp-recovery-modal .cp-recovery-primary{
+  min-height:48px!important;border-radius:13px!important;font-weight:900!important;
+  transition:transform .15s ease,box-shadow .15s ease,filter .15s ease!important;
+}
+.cp-recovery-modal .cp-recovery-primary:hover:not(:disabled){
+  transform:translateY(-1px);filter:brightness(1.03);
+}
+.cp-recovery-modal .cp-recovery-primary:active:not(:disabled){transform:scale(.985)}
+@media(max-width:520px){
+  .cp-recovery-modal{max-height:calc(100svh - 28px);overflow:auto;padding:20px!important;border-radius:22px!important}
+}
+html.dark-mode .cp-recovery-modal{background:#fff!important;color:#0f172a!important}
+</style>
+<link rel="stylesheet" href="advanced-experience.css">
+<link rel="stylesheet" href="advanced-v22.css">
+<script defer src="advanced-v22.js"></script>
+<link rel="stylesheet" href="advanced-v23.css">
+<script defer src="advanced-v23.js"></script>
+<script defer src="advanced-experience.js"></script>
+
+<link rel="stylesheet" href="advanced-v25.css">
+<link rel="stylesheet" href="login-interactive.css?v=14">
+<script src="advanced-v25.js" defer></script>
+<link rel="preload" href="advanced-v24.js" as="script">
+<link rel="stylesheet" href="advanced-v24.css">
+<style id="cp-final-ui-polish">
+  /* Final UI polish: lighter controls, consistent focus states, and less paint-heavy effects. */
+  input,select,textarea,button{font-family:inherit}
+  input:focus,select:focus,textarea:focus{outline:none}
+  .cps-auth-control{min-height:46px;border-radius:14px;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease}
+  .cps-auth-control:focus{box-shadow:0 0 0 3px rgba(59,130,246,.12);border-color:#60a5fa;background:#fff}
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body class="text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+  <!-- Instant authentication shell.
+       This is intentionally a STATIC login surface: there is no spinner, progress animation,
+       color-cycling boot screen, news ticker, or loading watchdog. The visitor sees the existing
+       login surface immediately while the complete precompiled React application is loaded as a
+       deferred same-origin asset. React replaces #root when ready; all existing portal features
+       remain in the deferred application runtime. -->
+  <div id="root">
+    <div id="cp-auth-boot" class="cp-auth-page min-h-screen flex flex-col items-center justify-center p-4 font-sans relative overflow-hidden bg-gradient-to-br from-brand-950 via-brand-900 to-slate-950">
+      <div class="absolute inset-0 pointer-events-none opacity-[0.035]" style="background-image:radial-gradient(circle,#fff 1px,transparent 1px);background-size:32px 32px;"></div>
+      <div class="absolute -top-40 -right-40 w-[30rem] h-[30rem] rounded-full bg-brand-500/15 blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-40 -left-40 w-[28rem] h-[28rem] rounded-full bg-cyan-500/10 blur-3xl pointer-events-none"></div>
+      <div class="w-full max-w-md relative z-10">
+        <div class="bg-white rounded-[28px] shadow-2xl border border-white/20 overflow-hidden">
+          <div class="px-6 pt-7 pb-5 text-center border-b border-slate-100">
+            <div class="mx-auto w-14 h-14 rounded-2xl bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-900/20">
+              <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor" aria-hidden="true"><path d="M12 2 4 5v6c0 5.5 3.5 9.5 8 11 4.5-1.5 8-5.5 8-11V5l-8-3Z"/></svg>
+            </div>
+            <p class="mt-4 text-[10px] font-black uppercase tracking-[.2em] text-brand-600">Campus Placement & Training</p>
+            <h1 class="mt-1 text-2xl font-black text-slate-900">Sign in to Campus A-Z</h1>
+            <p class="mt-1.5 text-xs text-slate-500">Secure access to your placement portal and all existing tools.</p>
+          </div>
+          <form id="cp-boot-login-form" class="p-6 space-y-4" novalidate>
+            <div>
+              <label for="cp-boot-email" class="block text-xs font-black text-slate-700 mb-1.5">Login Email</label>
+              <input id="cp-boot-email" name="email" type="email" autocomplete="username" required class="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-semibold text-slate-900 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/15" placeholder="Enter your registered email">
+            </div>
+            <div>
+              <label for="cp-boot-password" class="block text-xs font-black text-slate-700 mb-1.5">Password</label>
+              <input id="cp-boot-password" name="password" type="password" autocomplete="current-password" required class="w-full h-12 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm font-semibold text-slate-900 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/15" placeholder="Enter your password">
+            </div>
+            <p id="cp-boot-login-error" class="hidden text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 rounded-xl px-3 py-2.5" role="alert"></p>
+            <button id="cp-boot-login-button" type="submit" class="w-full h-12 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-black text-sm shadow-lg shadow-brand-900/15 transition">
+              Sign In
+            </button>
+            <div class="flex items-center justify-between gap-3 text-[11px]">
+              <span class="text-slate-400">Your existing login, Face ID, fingerprint, registration and recovery flows remain available after React mounts.</span>
+            </div>
+          </form>
+        </div>
+        <p class="text-center text-[10px] text-white/60 mt-4">AI Powered Campus A-Z • Secure Portal</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Minimal startup login handler. This is only a resilience layer: the full React login UI
+       remains the source of truth and replaces this shell as soon as the application mounts.
+       If a slow/failed React parse occurs, password login can still reach the existing backend. -->
+  <script>
+    (function () {
+      'use strict';
+      var form = document.getElementById('cp-boot-login-form');
+      if (!form) return;
+      var email = document.getElementById('cp-boot-email');
+      var password = document.getElementById('cp-boot-password');
+      var button = document.getElementById('cp-boot-login-button');
+      var error = document.getElementById('cp-boot-login-error');
+      function apiBase() {
+        try { return String(localStorage.getItem('AI_BACKEND_URL') || '').trim().replace(/\/+$/, ''); } catch (_) { return ''; }
+      }
+      function message(data, fallback) {
+        return data && (data.error || (data.message && data.message.text) || data.message) || fallback;
+      }
+      form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        var e = String(email.value || '').trim().toLowerCase();
+        var p = String(password.value || '');
+        error.classList.add('hidden');
+        if (!e || !p) {
+          error.textContent = 'Enter both your email and password.';
+          error.classList.remove('hidden');
+          return;
+        }
+        button.disabled = true;
+        button.textContent = 'Signing in…';
+        try {
+          var controller = new AbortController();
+          var timeout = setTimeout(function () { controller.abort(); }, 8000);
+          var response;
+          try {
+            response = await fetch(apiBase() + '/api/portal-auth/login', {
+              method: 'POST',
+              credentials: 'include',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: e, password: p }),
+              signal: controller.signal
+            });
+          } finally { clearTimeout(timeout); }
+          var data = await response.json().catch(function () { return {}; });
+          if (!response.ok || !data.user) throw new Error(message(data, 'Invalid email or password.'));
+          var u = data.user;
+          try {
+            localStorage.setItem('CP_USER', JSON.stringify(u));
+            localStorage.setItem('TNP_CURRENT_USER', JSON.stringify(Object.assign({}, u, { loggedIn: true })));
+            localStorage.setItem('TNP_SESSION_META', JSON.stringify({ expiresAt: Date.now() + 12 * 60 * 60 * 1000, remembered: false }));
+          } catch (_) {}
+          window.location.reload();
+        } catch (err) {
+          error.textContent = err && err.name === 'AbortError'
+            ? 'Sign-in timed out after 8 seconds. Please check the portal server and try again.'
+            : (err && err.message ? err.message : 'Unable to sign in right now.');
+          error.classList.remove('hidden');
+          button.disabled = false;
+          button.textContent = 'Sign In';
+        }
+      });
+    })();
+  </script>
+
+  <!-- Unified React Application — precompiled to plain JS ahead of time (JSX -> React.createElement
+       via a build step), NOT transpiled live in the browser. Previously this ~2.1MB of raw JSX was
+       shipped as precompiled plain JavaScript rather than an in-browser JSX/Babel bundle. The browser
+       executes the deferred same-origin runtime directly, with no client-side transform cost and
+       no runtime dependency on Babel or its CDN. -->
+  <!-- LeetCode-derived coding-practice question bank data, loaded as inert JSON (not JS)
+       so the ~2500-problem payload never has to be parsed as a giant JS literal and can be
+       fetched via JSON.parse() by the app script below (see LEETCODE_BANK). -->
+  <!-- LeetCode bank is lazy-loaded from frontend/leetcode-bank.json to keep first paint fast. -->
+
+  <!-- Cloud sync: mirrors per-student localStorage data to Neon and restores it after sign-in. Must load before the app. -->
+  <script src="./cloud-sync.js"></script>
+
+  <script src="./app-runtime.js" defer data-runtime-key="app-runtime"></script>
+  <script src="./login-interactive.js?v=14" defer></script>
+
+
+
+<script id="cps-phase1-accessibility-runtime">
+(function(){
+  'use strict';
+  const install=()=>{
+    if(document.getElementById('cps-skip-link')) return;
+    const skip=document.createElement('a'); skip.id='cps-skip-link'; skip.className='cps-skip'; skip.href='#root'; skip.textContent='Skip to application';
+    document.body.prepend(skip);
+    /* Respect an OS dark preference before React paints its first interactive frame when the
+       user has never explicitly chosen a theme. The existing TNP_DARK_MODE key remains untouched. */
+    try{
+      const saved=localStorage.getItem('TNP_DARK_MODE');
+      if(saved===null && matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.classList.add('dark-mode');
+    }catch(e){}
+    /* Prevent accidental double-submit while an existing button is visibly busy. */
+    document.addEventListener('click',e=>{
+      const b=e.target.closest('button'); if(!b || b.disabled) return;
+      if(b.dataset.cpsOnce==='1') return;
+      const busy=b.getAttribute('aria-busy')==='true';
+      if(busy){e.preventDefault();e.stopPropagation();}
+    },true);
+  };
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install,{once:true}); else install();
+})();
+</script>
+
+<script src="advanced-v24.js" defer></script>
+<script>document.addEventListener('click',function(e){var b=e.target&&e.target.closest&&e.target.closest('[data-tnp-reload="1"]');if(b){e.preventDefault();window.location.reload();}});</script>
+</body>
+</html>

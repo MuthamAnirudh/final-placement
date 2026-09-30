@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: campus-portal
+    runtime: node
+    buildCommand: cd backend && npm ci && npm run build
+    startCommand: cd backend && npm start
+    healthCheckPath: /api/health/live
+    autoDeployTrigger: commit

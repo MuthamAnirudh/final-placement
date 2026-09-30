@@ -1,0 +1,113 @@
+/* Campus Portal — standalone authentication experience.
+   This layer intentionally does not depend on Tailwind/CDN assets, so the login page
+   remains polished even when browser vendor assets are unavailable or still warming up. */
+.cp-auth-page{box-sizing:border-box;min-height:100svh;width:100%;padding:72px 20px 28px;background:
+ radial-gradient(900px 520px at 8% 8%,rgba(14,165,233,.20),transparent 58%),
+ radial-gradient(760px 500px at 92% 14%,rgba(99,102,241,.22),transparent 58%),
+ linear-gradient(135deg,#071426 0%,#0a1d38 46%,#0d1730 100%)!important;color:#f8fafc;overflow-x:hidden;isolation:isolate}
+.cp-auth-page,.cp-auth-page *{box-sizing:border-box}
+.cp-auth-page:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:36px 36px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),transparent 92%)}
+.cp-auth-decor .absolute{position:absolute}.cp-auth-decor .-top-40{top:-10rem}.cp-auth-decor .-right-40{right:-10rem}.cp-auth-decor .-bottom-40{bottom:-10rem}.cp-auth-decor .-left-40{left:-10rem}
+.cp-auth-ticker{position:absolute!important;top:0;left:0;right:0;height:38px;padding:10px 0!important;background:rgba(2,8,23,.52)!important;border-bottom:1px solid rgba(255,255,255,.08)!important;color:#cfe5ff!important;font-size:11px!important;line-height:18px;white-space:nowrap;overflow:hidden;backdrop-filter:blur(14px);z-index:20}
+.cp-auth-ticker>div{display:inline-block;min-width:max-content;animation:cpAuthMarquee 32s linear infinite}@keyframes cpAuthMarquee{from{transform:translateX(0)}to{transform:translateX(-42%)}}
+.cp-auth-layout{display:grid!important;grid-template-columns:minmax(0,1.05fr) minmax(380px,.95fr)!important;gap:52px!important;align-items:center!important;width:min(1120px,100%)!important;margin:0 auto!important}
+.cp-auth-layout>*{grid-column:auto!important;min-width:0!important}
+.cp-auth-features{display:flex!important;flex-direction:column!important;gap:18px!important;padding-right:18px!important}
+.cp-auth-features>div:first-child p{margin:0 0 8px;font-size:11px;line-height:1.2;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:#7dd3fc}
+.cp-auth-features>div:first-child h2{margin:0;font-size:clamp(30px,3.5vw,48px);line-height:1.02;font-weight:900;letter-spacing:-.035em;color:#fff}
+.cp-auth-features>div:first-child h2 span{color:#93c5fd}
+.cp-auth-features>div:last-child{display:flex!important;flex-direction:column!important;gap:10px!important}
+.cp-auth-feature{display:flex!important;align-items:center!important;gap:13px!important;min-height:64px;padding:11px 14px!important;border-radius:18px!important;background:rgba(255,255,255,.075)!important;border:1px solid rgba(255,255,255,.11)!important;box-shadow:0 12px 28px rgba(0,0,0,.13);backdrop-filter:blur(14px);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.cp-auth-feature:hover{transform:translateX(4px);background:rgba(255,255,255,.10)!important;border-color:rgba(125,211,252,.30)!important}
+.cp-auth-feature>span{width:42px!important;height:42px!important;min-width:42px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:13px!important;color:#fff!important}
+.cp-auth-feature svg{width:20px!important;height:20px!important;display:block!important;flex:0 0 20px}
+.cp-auth-feature p{margin:0!important;font-size:13px!important;line-height:1.35!important;font-weight:700!important;color:#dbeafe!important}
+.cp-auth-panel{width:100%!important;max-width:500px!important;margin:0!important}
+.cp-auth-brand{margin-bottom:20px!important}
+.cp-auth-brand>div:first-child{width:68px!important;height:68px!important;margin:0 auto 15px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:20px!important;background:linear-gradient(145deg,#38bdf8,#2563eb)!important;box-shadow:0 18px 45px rgba(37,99,235,.35),0 0 0 7px rgba(255,255,255,.07)!important}
+.cp-auth-brand>div:first-child svg{width:34px!important;height:34px!important;display:block!important}
+.cp-auth-brand h1{margin:0!important;font-size:clamp(25px,3vw,34px)!important;line-height:1.08!important;font-weight:900!important;letter-spacing:-.03em!important;color:#fff!important;background:none!important;-webkit-text-fill-color:#fff!important}
+.cp-auth-brand>p{max-width:470px!important;margin:9px auto 0!important;font-size:13px!important;line-height:1.5!important;color:#bfdbfe!important}
+.cp-auth-brand>div:last-child{display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;flex-wrap:wrap!important;margin-top:13px!important}
+.cp-auth-brand>div:last-child span{display:inline-flex!important;align-items:center!important;gap:5px!important;padding:6px 9px!important;border-radius:999px!important;background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,255,255,.11)!important;color:#dbeafe!important;font-size:10px!important;font-weight:800!important}
+.cp-auth-brand>div:last-child svg{width:12px!important;height:12px!important;display:block!important}
+.cp-auth-card{width:100%!important;padding:25px!important;border-radius:26px!important;background:rgba(255,255,255,.97)!important;border:1px solid rgba(255,255,255,.68)!important;box-shadow:0 30px 80px rgba(0,0,0,.30)!important;color:#0f172a!important;overflow:hidden!important}
+.cp-auth-card>div:first-child{height:4px!important;position:absolute!important;top:0;left:0;right:0;background:linear-gradient(90deg,#38bdf8,#2563eb,#7c3aed)!important}
+.cp-auth-card form{display:flex!important;flex-direction:column!important;gap:14px!important;font-size:12px!important}
+.cp-auth-card form h3{margin:0!important;padding:0 0 12px!important;border-bottom:1px solid #e8edf4!important;font-size:18px!important;line-height:1.2!important;font-weight:900!important;color:#0f172a!important}
+.cp-auth-card label{display:block!important;margin:0 0 6px!important;font-size:12px!important;font-weight:800!important;color:#334155!important}
+.cp-auth-role-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+.cp-auth-role{min-height:70px!important;padding:10px 7px!important;border-radius:15px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;border:1px solid #dce3ec!important;background:#f8fafc!important;color:#475569!important}
+.cp-auth-role svg{width:19px!important;height:19px!important;display:block!important}
+.cp-auth-role span{display:block!important;text-align:center!important;font-size:11px!important;line-height:1.15!important;font-weight:900!important}
+.cp-auth-role span:last-child{font-size:9px!important;color:#94a3b8!important;font-weight:700!important}
+.cp-auth-card input:not([type=checkbox]):not([type=file]),.cp-auth-card select{width:100%!important;min-height:44px!important;border:1px solid #cbd5e1!important;border-radius:12px!important;background:#f8fafc!important;padding:10px 12px!important;color:#0f172a!important;font-size:13px!important;font-weight:700!important;outline:none!important}
+.cp-auth-card input:not([type=checkbox]):not([type=file]):focus{background:#fff!important;border-color:#3b82f6!important;box-shadow:0 0 0 4px rgba(59,130,246,.12)!important}
+.cp-auth-card input[type=checkbox]{width:15px!important;height:15px!important}
+.cp-auth-card form button{font-family:inherit}
+.cp-auth-card form>button[type=submit]{width:100%!important;min-height:46px!important;border:0!important;border-radius:13px!important;background:linear-gradient(135deg,#2563eb,#1d4ed8)!important;color:#fff!important;font-size:13px!important;font-weight:900!important;box-shadow:0 12px 24px rgba(37,99,235,.25)!important}
+.cp-auth-card form>button[type=submit]:hover{transform:translateY(-1px);box-shadow:0 16px 30px rgba(37,99,235,.30)!important}
+.cp-auth-card form p{line-height:1.45!important}
+.cp-auth-card .relative{position:relative}
+.cp-auth-card .absolute{position:absolute}
+.cp-auth-card .flex{display:flex}
+.cp-auth-card .items-center{align-items:center}
+.cp-auth-card .justify-center{justify-content:center}
+.cp-auth-card .justify-between{justify-content:space-between}
+.cp-auth-card svg{display:block!important;max-width:100%!important}
+.cp-auth-page~#cp-account-widget-root,#cp-account-widget-root:has(+ .cp-auth-page){display:none!important}
+body:has(.cp-auth-page) #cp-account-widget-root{display:none!important}
+#cp-account-widget-root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+@media(max-width:900px){
+ .cp-auth-page{padding:58px 16px 24px;align-items:stretch!important;justify-content:flex-start!important}
+ .cp-auth-layout{display:block!important;width:min(560px,100%)!important;margin:24px auto 0!important}
+ .cp-auth-features{display:none!important}
+ .cp-auth-panel{max-width:560px!important;margin:0 auto!important}
+ .cp-auth-brand{margin-bottom:17px!important}
+ .cp-auth-brand>div:first-child{width:58px!important;height:58px!important;border-radius:17px!important;margin-bottom:11px!important}
+ .cp-auth-brand>div:first-child svg{width:29px!important;height:29px!important}
+ .cp-auth-brand h1{font-size:25px!important}
+ .cp-auth-brand>p{font-size:12px!important;max-width:430px!important}
+ .cp-auth-card{padding:20px!important;border-radius:22px!important}
+ .cp-auth-role{min-height:66px!important}
+}
+@media(max-width:520px){
+ .cp-auth-page{padding-left:12px;padding-right:12px}
+ .cp-auth-layout{margin-top:18px!important}
+ .cp-auth-brand h1{font-size:23px!important}
+ .cp-auth-brand>p{font-size:11.5px!important}
+ .cp-auth-card{padding:17px!important;border-radius:20px!important}
+ .cp-auth-card form{gap:12px!important}
+ .cp-auth-role-grid{gap:7px!important}
+ .cp-auth-role{min-height:62px!important;padding:8px 4px!important}
+ .cp-auth-ticker{font-size:10px!important}
+}
+@media(prefers-reduced-motion:reduce){.cp-auth-ticker>div,.cp-auth-page *{animation:none!important;transition:none!important}}
+.cp-auth-card form button:not([type="submit"]){border-radius:11px;cursor:pointer}
+.cp-auth-card form a,.cp-auth-card form button[type="button"]{font-weight:800}
+.cp-auth-card form>div{min-width:0}
+.cp-auth-card form .flex{min-width:0}
+.cp-auth-card form img{max-width:100%;height:auto}
+
+/* v9 login polish: (1) text no longer overlaps the mail/lock/status icons, (2) clean "Remember me" checkbox. */
+.cp-auth-card .relative>svg.absolute{position:absolute!important;top:50%!important;transform:translateY(-50%)!important;width:16px!important;height:16px!important;flex:0 0 16px;z-index:2;pointer-events:none}
+.cp-auth-card .relative>svg.absolute.left-3{left:14px!important;right:auto!important}
+.cp-auth-card .relative>svg.absolute.right-3{right:14px!important;left:auto!important}
+.cp-auth-card .relative>svg.absolute.left-3~input:not([type=checkbox]):not([type=file]){padding-left:44px!important}
+.cp-auth-card .relative>input:not([type=checkbox]):not([type=file]):has(~svg.absolute.right-3){padding-right:42px!important}
+.cp-auth-card .relative>input:not([type=checkbox]):not([type=file]):has(~button.absolute){padding-right:52px!important}
+.cp-auth-card .relative>button.absolute{position:absolute!important;right:6px!important;top:50%!important;transform:translateY(-50%)!important;width:36px!important;height:36px!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important;z-index:2}
+.cp-auth-card .relative>button.absolute svg{width:16px!important;height:16px!important}
+.cp-auth-card .relative>svg.absolute.left-3~input::placeholder{color:#94a3b8;font-weight:600}
+.cp-auth-card .relative:focus-within>svg.absolute.left-3{color:#2563eb}
+/* Remember me: keep the label a flex row (the generic label{display:block} rule broke it) */
+.cp-auth-card label:has(>input[type=checkbox]){display:inline-flex!important;align-items:center!important;gap:8px!important;margin:0!important;cursor:pointer;user-select:none;font-size:12px!important;font-weight:700!important;color:#475569!important;line-height:1.2}
+.cp-auth-card input[type=checkbox]{-webkit-appearance:none!important;appearance:none!important;flex:0 0 18px;width:18px!important;height:18px!important;min-height:0!important;margin:0!important;padding:0!important;border:1.5px solid #94a3b8!important;border-radius:6px!important;background:#fff!important;display:inline-grid!important;place-content:center;cursor:pointer;outline:none!important;box-shadow:none!important;transition:background .15s ease,border-color .15s ease,transform .1s ease}
+.cp-auth-card input[type=checkbox]::before{content:"";width:10px;height:10px;transform:scale(0);transition:transform .12s ease;background:#fff;clip-path:polygon(14% 44%,0 65%,50% 100%,100% 16%,80% 0,43% 62%)}
+.cp-auth-card input[type=checkbox]:checked{background:#2563eb!important;border-color:#2563eb!important}
+.cp-auth-card input[type=checkbox]:checked::before{transform:scale(1)}
+.cp-auth-card input[type=checkbox]:hover{border-color:#3b82f6!important}
+.cp-auth-card input[type=checkbox]:active{transform:scale(.92)}
+.cp-auth-card input[type=checkbox]:focus{outline:none!important;box-shadow:none!important}
+.cp-auth-card input[type=checkbox]:focus-visible{outline:none!important;box-shadow:0 0 0 3px rgba(59,130,246,.28)!important}
+.cp-auth-card label:has(>input[type=checkbox]):focus-within{outline:none}

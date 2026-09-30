@@ -1,0 +1,13 @@
+/* Runtime accessibility/performance support. No new UI surface. */
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+:where(button,a,input,textarea,select,[tabindex]):focus-visible{outline:3px solid rgba(99,102,241,.58);outline-offset:3px}
+@media (forced-colors:active){:where(button,a,input,textarea,select,[tabindex]):focus-visible{outline:2px solid CanvasText}}
+
+
+/* v25.1 navigation stability: one horizontal feature row, no scroll-triggered overlay. */
+.cp-stable-feature-nav{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;overflow-y:hidden!important;white-space:nowrap!important;scrollbar-width:thin;overscroll-behavior-x:contain;min-width:0}
+.cp-stable-feature-nav>*{flex:0 0 auto!important;white-space:nowrap!important}
+.cp-stable-header-row{display:flex!important;flex-wrap:nowrap!important;align-items:center!important;gap:12px!important;min-width:0!important}
+.cp-stable-header-row>.cp-brand-block{flex:0 0 auto!important;min-width:0!important}
+.cp-stable-header-controls{display:flex!important;flex:0 0 auto!important;align-items:center!important;gap:8px!important;min-width:max-content!important}
+@media(max-width:900px){.cp-stable-header-row{overflow-x:auto!important;overflow-y:visible!important;padding-bottom:2px}.cp-stable-header-controls{margin-left:auto!important}}

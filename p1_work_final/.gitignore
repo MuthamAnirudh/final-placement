@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# secrets - never commit real keys (use the .env.example files as templates)
+.env
+.env.*
+!.env.example
+*.pem
+
+# logs / caches / OS
+*.log
+.pytest_cache/
+.vercel/
+.DS_Store
+Thumbs.db

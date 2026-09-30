@@ -1,0 +1,12 @@
+const assert = require('assert');
+process.env.NODE_ENV = 'test';
+process.env.PORTAL_SECRETS_ENCRYPTION_KEY = 'test-only-portal-secret-key-0123456789abcdef';
+const vault = require('../src/services/secretVault');
+const source = { groqKey: 'gsk_test_secret_value', geminiKey: 'AIza-test-secret', aiMlToken: 'internal-token' };
+const encrypted = vault.encryptObject(source);
+assert(vault.isEncrypted(encrypted), 'secret vault must produce an encrypted envelope');
+assert(!JSON.stringify(encrypted).includes(source.groqKey), 'ciphertext must not contain plaintext provider secrets');
+assert.deepStrictEqual(vault.decryptObject(encrypted), source, 'encrypted secrets must decrypt losslessly');
+const tampered = { ...encrypted, data: (encrypted.data[0] === 'A' ? 'B' : 'A') + encrypted.data.slice(1) };
+assert.throws(() => vault.decryptObject(tampered), /authenticate|Unsupported state|bad decrypt/i, 'tampered ciphertext must fail authentication');
+console.log('Secret vault tests passed.');

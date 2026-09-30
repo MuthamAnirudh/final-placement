@@ -1,0 +1,10 @@
+# Keep line endings stable on Windows (removes the "LF will be replaced by CRLF" warnings)
+* text=auto eol=lf
+*.bin binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.zip binary
+*.woff binary
+*.woff2 binary
